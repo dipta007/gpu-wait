@@ -36,7 +36,8 @@ class GPUMonitor:
         handle = pynvml.nvmlDeviceGetHandleByIndex(device_id)
         info = pynvml.nvmlDeviceGetMemoryInfo(handle)
         usage = info.used / info.total
-        return usage < self.memory_threshold
+        free = 1.0 - usage
+        return free <= self.memory_threshold
 
     def wait_for_gpu(
         self, device_id: Optional[int] = None, callback: Optional[Callable] = None
