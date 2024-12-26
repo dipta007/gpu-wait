@@ -16,13 +16,13 @@ class CommandRunner:
         self.logger = logging.getLogger(__name__)
 
     def run_when_available(
-        self, command: List[str], device_id: Optional[int] = None, shell: bool = False
+        self, command: str, device_id: Optional[int] = None, shell: bool = True
     ):
         """
         Run command when GPU becomes available.
 
         Args:
-            command (List[str]): Command to run
+            command (str): Command to run
             device_id (int, optional): Specific GPU to wait for
             shell (bool): Whether to run command in shell
         """
@@ -33,13 +33,13 @@ class CommandRunner:
         self.gpu_monitor.wait_for_gpu(device_id, status_callback)
 
         try:
-            self.logger.info(f"Running command: {' '.join(command)}")
+            self.logger.info(f"Running command: {command}")
+            # Don't capture output when using shell=True to allow redirections to work
             result = subprocess.run(
-                command, shell=shell, check=True, text=True, capture_output=True
+                command, shell=shell, check=True, text=True, stdout=None, stderr=None
             )
             self.logger.info("Command completed successfully")
             return result
         except subprocess.CalledProcessError as e:
             self.logger.error(f"Command failed with exit code {e.returncode}")
-            self.logger.error(f"Error output: {e.stderr}")
             raise

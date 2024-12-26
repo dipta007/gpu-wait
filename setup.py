@@ -2,12 +2,12 @@ from setuptools import setup, find_packages
 
 setup(
     name="gpu_wait",
-    version="0.2.0",
+    version="0.3.0",
     packages=find_packages(),
     install_requires=[
-        "pynvml",    # For NVIDIA GPU monitoring
-        "psutil",           # For system resource monitoring
-        "click"             # For CLI interface
+        "pynvml",        # For NVIDIA GPU monitoring
+        "psutil",        # For system resource monitoring
+        "click"          # For CLI interface
     ],
     entry_points={
         "console_scripts": [

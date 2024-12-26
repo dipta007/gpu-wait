@@ -4,7 +4,7 @@ from .command_runner import CommandRunner
 
 
 @click.command()
-@click.argument("command", nargs=-1, required=True)
+@click.argument("command", nargs=1, required=True)
 @click.option("--device", "-d", type=int, help="Specific GPU device ID to wait for")
 @click.option(
     "--threshold",
@@ -16,9 +16,8 @@ from .command_runner import CommandRunner
 @click.option(
     "--interval", "-i", type=float, default=1.0, help="Polling interval in seconds"
 )
-@click.option("--shell/--no-shell", default=False, help="Run command in shell mode")
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging")
-def main(command, device, threshold, interval, shell, verbose):
+def main(command, device, threshold, interval, verbose):
     """Run a command when GPU resources become available."""
     logging.basicConfig(
         level=logging.INFO if verbose else logging.WARNING,
@@ -31,10 +30,9 @@ def main(command, device, threshold, interval, shell, verbose):
     runner = CommandRunner(monitor)
 
     try:
-        result = runner.run_when_available(
-            list(command) if not shell else " ".join(command), device, shell=shell
-        )
-        click.echo(result.stdout)
+        # Always use shell=True to handle redirections and pipes
+        result = runner.run_when_available(command, device, shell=True)
+        # Don't echo the output as it's already handled by shell redirection
     except Exception as e:
         click.echo(f"Error: {str(e)}", err=True)
         exit(1)
