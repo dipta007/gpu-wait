@@ -11,10 +11,14 @@ from .command_runner import CommandRunner
     "-t",
     type=float,
     default=0.9,
-    help="Memory usage threshold (0.0 to 1.0)",
+    help="Memory usage threshold (0.0 to 1.0), default=0.9",
 )
 @click.option(
-    "--interval", "-i", type=float, default=1.0, help="Polling interval in seconds"
+    "--interval",
+    "-i",
+    type=float,
+    default=10,
+    help="Polling interval in seconds, default=10",
 )
 @click.option("--verbose", "-v", is_flag=True, help="Enable verbose logging")
 def main(command, device, threshold, interval, verbose):

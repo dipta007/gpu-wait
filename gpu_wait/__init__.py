@@ -1,4 +1,4 @@
 from .gpu_monitor import GPUMonitor
 from .command_runner import CommandRunner
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"

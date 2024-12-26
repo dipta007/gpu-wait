@@ -2,25 +2,48 @@ name: Publish to PyPI
 
 on:
   release:
-    types: [created]
+    types: [published]
+  workflow_dispatch:  # Allow manual triggering
+
+permissions:
+  contents: read
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/gpu-wait  # Replace with your package name
+    permissions:
+      id-token: write  # IMPORTANT: mandatory for trusted publishing
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
+    
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: '3.x'
+        python-version: "3.x"
+        cache: pip
+        cache-dependency-path: |
+          setup.py
+          pyproject.toml
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install build twine
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: dipta007
-        TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        pip install -e .
+    
+    - name: Build package
+      run: python -m build
+
+    - name: Test package
       run: |
-        python -m build
-        twine upload dist/*
+        python -m pip install dist/*.whl
+        # Add any test commands here
+    
+    - name: Publish package distributions to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
+      # with:
+      #   repository-url: https://test.pypi.org/legacy/  # Uncomment for testing on TestPyPI

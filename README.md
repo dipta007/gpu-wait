@@ -14,16 +14,16 @@ pip install gpu-wait
 
 ```bash
 # Run a command when any GPU is available
-gpu-wait python train.py
+gpu-wait "python train.py"
 
 # Wait for specific GPU
-gpu-wait -d 0 python train.py
+gpu-wait -d 0 "python train.py"
 
 # Customize memory threshold and polling interval
-gpu-wait -t 0.8 -i 5 python train.py
+gpu-wait -t 0.8 -i 5 "python train.py"
 
 # Enable verbose logging
-gpu-wait -v python train.py
+gpu-wait -v "python train.py"
 ```
 
 ### Python API
@@ -38,7 +38,7 @@ monitor = GPUMonitor(memory_threshold=0.8)
 runner = CommandRunner(monitor)
 
 # Run command when GPU is available
-runner.run_when_available(["python", "train.py"])
+runner.run_when_available("python train.py")
 ```
 
 ## Features
