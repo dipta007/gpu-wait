@@ -2,10 +2,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="gpu_wait",
-    version="0.1.0",
+    version="0.2.0",
     packages=find_packages(),
     install_requires=[
-        "nvidia-ml-py3",    # For NVIDIA GPU monitoring
+        "pynvml",    # For NVIDIA GPU monitoring
         "psutil",           # For system resource monitoring
         "click"             # For CLI interface
     ],
@@ -23,7 +23,7 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
+        "Operating System :: Linux",
     ],
     python_requires=">=3.6",
 )

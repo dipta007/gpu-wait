@@ -53,7 +53,7 @@ runner.run_when_available(["python", "train.py"])
 
 - Python 3.6+
 - NVIDIA GPU
-- nvidia-ml-py3
+- nvidia-ml-py
 - psutil
 - click
 
