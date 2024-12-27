@@ -11,7 +11,7 @@ from .command_runner import CommandRunner
     "-t",
     type=float,
     default=0.9,
-    help="Percentage of free memory needed (0.0 to 1.0), default=0.9",
+    help="Percentage of free memory needed (0.0 to 1.0); default=0.9 means 'wait until >= 90% gpu is free'",
 )
 @click.option(
     "--interval",
